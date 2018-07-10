@@ -1,7 +1,7 @@
 function B = linear_regression(X, y)
 % LINEAR_REGRESSION calculates the B estimator vector
 % for multiple linear regression which minimizes the error `e`
-% in the equation `y ~ B*x + e`.
+% in the equation `y ~ x*B + e`.
 %
 % VARIABLES:
 %
