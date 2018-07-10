@@ -21,7 +21,6 @@ function vars = forward_selection(T, y)
 %     VARS: table of variables by column choosed
     
     p_value_max = 0.05;
-    X = T.Variables; % get only the values of table as matrix
     stack_vars = T.Properties.VariableNames(:); % vector of variable names
     selected_vars = {}; % vector of cells
     selected_idx = 1;
@@ -34,8 +33,8 @@ function vars = forward_selection(T, y)
        for i = 1:n
            vars = selected_vars(:);
            vars_length = length(vars);
-           vars(vars_length+1) = stack_vars(1);
-           X_model = T{:, vars};
+           vars(vars_length+1) = stack_vars(i);
+           X_model = T{:, vars}
            rss_value = rss_model(X_model, y);
            if (rss_value < rss_min_iter)
                 rss_min_iter = rss_value;
@@ -57,11 +56,4 @@ function vars = forward_selection(T, y)
     
     vars = T(:, selected_vars);
 end
-
-    
-function e = rss_model(X, y)
-    f = estimation_function(X, y);
-    e = rss_error(y, f(X));
-end
-
     
