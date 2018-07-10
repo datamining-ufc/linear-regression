@@ -1,4 +1,4 @@
-function vars = forward_selection(X, y)
+function vars = forward_selection(T, y)
 % BACKWARD_SELECTION implements a algorithm for variable
 % selection to the task of multiple linear regression in the
 % following:
@@ -16,10 +16,52 @@ function vars = forward_selection(X, y)
 %
 % VARIABLES:
 %
-%     X: a table in M x N form, where M, N > 1
+%     T: a table in M x N form, where M, N > 1
 %     Y: a column-vector with N elements
 %     VARS: table of variables by column choosed
-
-
-
+    
+    p_value_max = 0.05;
+    X = T.Variables; % get only the values of table as matrix
+    stack_vars = T.Properties.VariableNames(:); % vector of variable names
+    selected_vars = {}; % vector of cells
+    selected_idx = 1;
+    rss_min = +inf;
+    
+    while (length(stack_vars)) > 0
+       n = length(stack_vars);
+       best_var = 1;
+       rss_min_iter = rss_min; % rss_min of the iteration
+       for i = 1:n
+           vars = selected_vars(:);
+           vars_length = length(vars);
+           vars(vars_length+1) = stack_vars(1);
+           X_model = T{:, vars};
+           rss_value = rss_model(X_model, y);
+           if (rss_value < rss_min_iter)
+                rss_min_iter = rss_value;
+                best_var = i;
+           end
+       end
+       
+       % if p_value of the min_rss value selected is less than 0.05
+       % add to the selected_vars
+       var_name = stack_vars(best_var);
+       if (p_value(T{:, var_name}, y) <= p_value_max) && (rss_min_iter < rss_min)
+            selected_vars(selected_idx) = var_name;
+            selected_idx = selected_idx + 1;
+            rss_min = rss_min_iter;
+       end
+       % remove variable from stack 
+       stack_vars(best_var) = []; 
+    end
+    
+    vars = T(:, selected_vars);
 end
+
+    
+function e = rss_model(X, y)
+    f = estimation_function(X, y);
+    e = rss_error(y, f(X));
+end
+
+    
