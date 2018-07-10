@@ -34,7 +34,7 @@ function vars = forward_selection(T, y)
            vars = selected_vars(:);
            vars_length = length(vars);
            vars(vars_length+1) = stack_vars(i);
-           X_model = T{:, vars}
+           X_model = T{:, vars};
            rss_value = rss_model(X_model, y);
            if (rss_value < rss_min_iter)
                 rss_min_iter = rss_value;
@@ -56,4 +56,9 @@ function vars = forward_selection(T, y)
     
     vars = T(:, selected_vars);
 end
-    
+
+function e = rss_model(X, y)
+% RSS_MODEL calculate the RSS error value of the linear regression model
+    f = estimation_function(X, y);
+    e = rss_error(y, f(X));
+end
