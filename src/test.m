@@ -12,10 +12,10 @@ T_X = T(:, 1:columns-1);
 
 %% FORWARD SELECTION
 fprintf("Applying forward selection...\n")
-vars = forward_selection(T_X, y); 
-display(vars)
+vars1 = forward_selection(T_X, y); 
+display(vars1)
 
 %% BACKWARD SELECTION
-% fprintf("Applying backward selection...\n")
-% vars = backward_selection(T_X, y);
-% display(vars)
+fprintf("Applying backward selection...\n")
+vars2 = backward_selection(T_X, y);
+display(vars2)
