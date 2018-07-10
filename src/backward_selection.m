@@ -10,7 +10,7 @@ function vars = backward_selection(T, y)
 % variable is the least statistically significant
 % 3. The new (p - 1)-variable model is fit, and the variable with
 % the largest p-value is removed.
-% 4. Continue until all remaining variables have a p-value above 
+% 4. Continue until all remaining variables have a p-value below
 % 0.05, a fixed significance threshold
 %
 % VARIABLES:
